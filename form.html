@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Bouquet Prices</title>
+		<link rel="stylesheet" type="text/css" href="css/form.css">
+	<body class="body">
+	    <h3><a href='home.html'><-- Home page</a></h3>
+		<fieldset class="fieldset">
+			<p class="p">Check Out Bouquet Availability for Your Occasion</p>
+
+			<form action="session.php" method="post">
+				<label class="account "> Please Select Your Occasion</label><br>
+				<div class="label">
+					<input  type="radio" name="occasion" value="Wedding">Wedding<br>
+					<input  type="radio" name="occasion" value="Anniversary">Anniversary<br>
+					<input   type="radio" name="occasion" value="Birthday">Birthday<br>
+					<input  type="radio" name="occasion" value="Graduation">Graduation<br>
+					<br>
+				</div>
+
+				<label class="account">Price Range:</label><br>
+				<div class="label">
+					<input type="checkbox" name="price" value="30-50"> 30-50<br>
+					<input type="checkbox" name="price" value="50-80"> 50-80<br>
+					<input type="checkbox" name="price" value="80-120"> 80-120<br>
+					<input type="checkbox" name="price" value="120-above"> 120-above<br>
+				</div>
+				<div>
+					<input  class="btn" type="button" onclick="myFunction()" value="Submit">
+					<br>
+				</div>
+				<br>
+				<div>
+					<input  class="text" type="text" id="order" size="80" >
+					<input  class="btn" type="submit" value="Send" >
+				</div>
+				<br>
+				<div>
+					<input type="text" name="history">
+
+			</form>
+		</fieldset>
+		<script>
+			function myFunction() {
+				var price = document.forms[0];
+				var occasion = document.forms[0];
+				var txt = "";
+				var txt1 = "";
+				var i;
+				var j;
+				selected = false;
+				for (i = 0; i < occasion.length; i++) {
+					if (occasion[i].checked) {
+						txt = txt + occasion[i].value + " ";
+						selected = true;
+					}
+				}
+
+				for (j = 0; j < price.length; j++) {
+					if (price[j].checked) {
+						txt1 = txt1 + price[j].value + " ";
+						selected = true;
+					}
+				}
+				document.getElementById("order").value = "Selection: " + txt;
+
+				if (selected) {
+					return true;
+				} else {
+					event.preventDefault();
+					alert("Sorry! You must either choose an occasion or range!");
+					return false;
+				}
+
+			}
+		</script>
+	</body>
+</html>

@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+	<meta charset="utf-8">
+    <title>Mangogogo Account</title>
+	<link rel="stylesheet" href="Creating%20a%20Form_files/form.css">
+	    <script type = "text/javascript">
+        function validate()
+        {
+            var name  = document.getElementById("first-name").value;
+			var lname  = document.getElementById("last-name").value;
+			var password  = document.getElementById("password").value;
+			var password2  = document.getElementById("password2").value;
+            var phone = document.getElementById("phone").value;
+            var email = document.getElementById("email").value;            
+            var errors = "";    
+            if (name == "") 
+			{
+                errors += "Missing First name.\n";
+            } 
+            if (lname == "") 
+			{
+                errors += "Missing Last name.\n";
+            }            
+            var phoneRE = /^\(\d{3}\) *\d{3}-\d{4}$/;
+            if (!phoneRE.test(phone))
+			{
+                errors += "Invalid phone number. Example: (999) 999-9999\n";
+            }     
+			//var emailRE = /^.+\..+@.+\..{2,4}$/;
+            //if (!emailRE.test(email))
+			//{
+            //    errors += "Invalid email address. Example: xxxxx@xxxxx.xxx\n";
+            //} 
+            var passwordRE = /^.{5,18}$/;
+            if (!passwordRE.test(password))
+			{
+                errors += "Password must be at least five characters long. \n";
+            } 
+            if (password != password2)
+            {
+			    errors += "Passwords do not match. \n";
+            }  			
+            if (errors != "") {
+              alert(errors);
+            }
+			else
+			{
+				alert("Information was submitted successfully.");
+			}
+        }
+    </script>
+</head>
+<body background="http://newflowerwallpaper.com/download/flower-background-images-and-wallpapers/flower-background-images-and-wallpapers-16.jpg" id="hinh">
+
+<main class="wrapper" role="main">	
+	<!--form method="post" action="show-data.php" enctype="multipart/form-data"-->
+	<form action = "Creating a Form.php">
+		<!-- START ACCOUNT FIELDS -->
+		 <fieldset>
+			<h2 class="hdr-account">Mangogogo Account</h2>
+
+			<div class="fields">
+				<p class="row">
+					<label for="first-name">First Name<span class="required">*</span>:</label>
+					<input id="first-name" name="first_name" class="field-large" required="required" aria-required="true" type="text">
+				</p>
+				<p class="row">
+					<label for="last-name">Last Name:</label>
+					<input id="last-name" name="last_name" class="field-large" type="text">
+				</p>
+				<p class="row">
+					<label for="email">Email:</label>
+					<input id="email" name="email" placeholder="yourname@example.com" class="field-large" type="email">
+				</p>
+				<p class="row">
+					<label for="phone">Phone:</label>
+					<input id="phone" name="phone" placeholder="(999) 999-9999" class="field-large" type="phone">
+				</p>
+				<p class="row">
+					<label for="password">Password:</label>
+					<input id="password" name="password" type="password">
+				</p>
+				<p class="row">
+					<label for="password2">Re-enter Password:</label>
+					<input id="password2" name="password2" type="password">
+				</p>
+			</div>
+		</fieldset>
+		<!-- end account -->
+		
+		<!-- START ADDRESS FIELDS -->
+		<fieldset>
+			<h2 class="hdr-address">Delivery Address </h2>
+
+			<div class="fields">
+				<div class="row">
+					<label for="recipient">Recipient:</label>
+					<input id="recipient" name="recipient" class="field-large" type="text">
+				</div>
+				<div class="row">
+					<label for="street-address">Street Address:</label>
+					<input id="street-address" name="street_address" class="field-large" type="text">
+				</div>
+				<div class="row">
+					<label for="city">City:</label>
+					<input id="city" name="city" class="field-large" type="text">
+				</div>
+				<div class="row">
+					<label for="state">State:</label>
+					<select id="state" name="state">
+						<option selected="selected" value="AL">Alabama</option>
+						<option value="AK">Alaska</option>
+						<option value="CA">California</option>
+						<option value="CO">Colorado</option>
+					</select>
+				</div>
+				<div class="row">
+					<label for="zip-code">ZIP Code:</label>
+					<input id="zip-code" name="zip_code" class="field-small" type="text">
+				</div>
+			</div>
+		</fieldset>
+		<!-- end address -->
+		
+		<!-- START  FIELDS -->
+
+
+
+		<!-- end  -->
+		
+		<!-- START EMAILS FIELDS -->
+		<fieldset>
+			<h2 class="hdr-emails">Emails</h2>
+			<div class="fields checkboxes">
+				<div class="row">
+					<input id="email-ok-occasional-updates" name="email_signup[]" value="occasional-updates" type="checkbox">
+					<label for="email-ok-occasional-updates">It is okay to email me with occasional promotions about Mangogogo products.</label>
+				</div>    			
+			</div>
+		</fieldset>
+		<!-- end emails -->
+		
+		<input value="Create Account" class="btn" type="submit" onclick = "validate()">
+		<!--button type = "button" onclick = "validate()"--->
+                <!--Submit-->
+        <!--/button-->
+	</form>
+</main>
+
+</body>
+</html>

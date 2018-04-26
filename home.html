@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <title>Mango Go Go</title>
+        <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Lato:300|Open+Sans:700">
+        <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="css/mangogogo.css">
+        <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>-->
+
+
+        <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+        <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+        <link rel="stylesheet" href="/resources/demos/style.css">
+        <script>
+            var a = ["Iris", "Lilies", "Muscari", "Hellebores",
+                "Ranunculus", "Spray Rosee", "Sweet Peas", "Clematis",
+                "Sraspedia", "Calla lilies", "Orchid", "Hydrangea", "Carnation", "Daffodils", "Violet Roses",
+                "Peony", "Rose", "While rose", "Yellow Rose", "Lily", "Allium", "Tulips"];
+
+            $(document).ready(function () {
+                $("#image").fadeOut(function () {
+                    $(this).load(function () {
+                        $(this).fadeIn();
+                    });
+                    $(this).attr("src", "http://twitrheaders.com/wp-content/uploads/2014/05/Flower-Macro.jpg");
+                });
+
+
+
+            });
+
+            function showHint(searchStr) {
+                console.log(searchStr);
+                var resultFound = false;
+                var i = 0;
+
+                $('#txtHint').html('');
+                if (searchStr != '') {
+                    $.get('http://localhost/mangogogo/mango.php?', {f_name: searchStr}, function (result) {
+                        $('#txtHint').html(result);
+                    });
+                }
+            }
+
+            $(function () {
+
+                function split(val) {
+                    return val.split(/,\s*/);
+                }
+                function extractLast(term) {
+                    return split(term).pop();
+                }
+
+                $("#tags")
+                        // don't navigate away from the field on tab when selecting an item
+                        .bind("keydown", function (event) {
+                            if (event.keyCode === $.ui.keyCode.TAB &&
+                                    $(this).autocomplete("instance").menu.active) {
+                                event.preventDefault();
+                            }
+                        })
+                        .autocomplete({
+                            minLength: 0,
+                            source: function (request, response) {
+                                // delegate back to autocomplete, but extract the last term
+                                response($.ui.autocomplete.filter(
+                                        a, extractLast(request.term)));
+                            },
+                            focus: function () {
+                                // prevent value inserted on focus
+                                return false;
+                            },
+                            select: function (event, ui) {
+                                var terms = split(this.value);
+                                // remove the current input
+                                terms.pop();
+                                // add the selected item
+                                terms.push(ui.item.value);
+                                // add placeholder to get the comma-and-space at the end
+                                terms.push("");
+                                this.value = terms.join(", ");
+                                return false;
+                            }
+                        });
+            });
+
+            $(function () {
+                $(document).tooltip();
+            });
+
+
+
+            $(function () {
+                $("#datepicker").datepicker();
+            });
+            $(function () {
+                $("#accordion").accordion({
+                    heightStyle: "fill"
+                });
+            });
+            $(function () {
+                $("#accordion-resizer").resizable({
+                    minHeight: 140,
+                    minWidth: 200,
+                    resize: function () {
+                        $("#accordion").accordion("refresh");
+                    }
+                });
+            });
+
+            function search_flower() {
+                var name = $("#name").val();
+                $.ajax({url: 'mango.php',
+                    type: 'post',
+                    data: {f_name: name},
+                    success: function (output) {
+                        $("#outputTable").html(output);
+                    }
+                });
+            }
+        </script>
+        <style>
+            #accordion-resizer {
+                padding: 10px;
+                width: 350px;
+                height: 220px;
+            }
+
+            label {
+                display: inline-block;
+                width: 5em;
+            }
+
+            .ui-autocomplete {
+                max-height: 100px;
+                overflow-y: auto;
+                /* prevent horizontal scrollbar */
+                overflow-x: hidden;
+            }
+            /* IE 6 doesn't support max-height
+             * we use height instead, but this forces the menu to always be this tall
+             */
+            * html .ui-autocomplete {
+                height: 100px;
+            }
+        </style>
+
+    </head>
+    <body background="http://newflowerwallpaper.com/download/flower-background-images-and-wallpapers/flower-background-images-and-wallpapers-16.jpg" id="hinh">
+        <div class="page">
+            <!-- ==== START MANGO ==== -->
+            <header class="mango" role="banner">
+                <p class="logo"><a href="/"><img src="img/sjsu.jpeg" alt="MANGO GO GO" /></a></p>
+
+                <!--                <img id="image" src="http://www.ashleysflowersla.com/slide_img/flowers-banner.jpg" width="6" height="2"/>-->
+                <ul class="social-sites">
+                    <li><a href="https://www.facebook.com/sanjosestate"><img src="img/f.png"></a></li>
+                    <li><a href="https://twitter.com/sjsu"><img src="img/t.png"></a></li>
+                    <li><a href="http://www.flickr.com"><img src="img/g.png"></a></li>
+                </ul>
+
+                <nav role="navigation">
+                    <ul class="nav-main">
+					    <li><a href="home.html">Home</a></li>
+						<li><a href="Creating a Form.html">Register</a></li>
+						<li><a href="form.html">Prices</a></li>
+						<li><a href="buy.html">Order Bouquet</a></li>
+						<li><a href="buycustom.html">Custom Order</a></li>
+						<li><a href="about.html">About US</a></li>
+                    </ul>
+                </nav>
+            </header>
+            <!-- end mango -->
+
+            <div  class="container clearfix" >
+                <!-- ==== START MAIN ==== -->
+                <main role="main" >
+                    <section class="post" id="accordion">
+                        <h1>Wedding</h1>
+                        <div>
+                            <img src="http://olohy.com/wp-content/uploads/2015/08/Wedding_Flowers.jpg"  width="500" height="365"  alt="" class="post-photo-full" />
+
+                            <div class="post-blurb">
+                                <p id="font"> Your wedding flowers may be a
+                                    large part of your wedding budget, so it's important to find wedding
+                                    centerpieces and wedding bouquets that you love. See photos of wedding flower
+                                    arrangements for ideas and then find a local wedding florist to pull it off for your
+                                    wedding day.&hellip; <a href="#" class="more">Read More</a></p>
+                            </div>
+                        </div>
+
+                        <h2>Birthday</h2>
+                        <div>
+                            <img src="https://www.theknot.com/assets/topic_pages/wedding-flowers-5afc63ae4383d9ce5dcf2b1d7ff312ec.jpg"  width="500" height="365"  alt="" class="post-photo-full" />
+
+                            <div class="post-blurb">
+                                <p id="font">Did you know that every month has a birth flower and that, like birthstones,
+                                    each one has special meaning? Like people, each birth flower is distinctive –
+                                    filled with significance and wonderful stories. So whether you’re looking for
+                                    a creative way to celebrate someone’s birthday, or you would like to add a personal
+                                    touch to a flower arrangement for any occasion, our Birth Flower
+                                    Guide will help you find out which flower is uniquely theirs.
+                                    .&hellip; <a href="#" class="more">Read More</a></p>
+                            </div>
+                        </div>
+
+                        <h3>Graduation</h3>
+                        <div>
+                            <img src="http://33.media.tumblr.com/65f7c86fd6589f3df0e3b6414b4342cc/tumblr_inline_n4x3v0Zm0b1qezpw2.jpg"  width="500" height="365"  alt="" class="post-photo-full" />
+
+                            <div class="post-blurb">
+                                <p id="font"> Whether you can make it to your favorite senior's party
+                                    or you're celebrating the event from out of town, flowers make a great
+                                    graduation gift. In-person friends and family members can present a beautiful
+                                    bouquet after the ceremony is over, while out-of-town loved ones can have
+                                    flowers hand-delivered to the graduate's house to support him or her from afar. If you're interested in sending a gift remotely, you can even gift the graduate with a plant that will last a lot longer than a bouquet. Send Teleflora's Good Luck Bamboo to bring your senior good fortune in his or her future endeavors. Graduating high school seniors can bring a plant with them to their
+                                    dorm rooms and college graduates can bring one into
+                                    the office to decorate their first professional desk..&hellip; <a href="#" class="more">Read More</a></p>
+                            </div>
+                        </div>
+                        <h3> Just because you miss someone</h3>
+                        <div>
+                            <img src="https://fdn.bloomthat.com/files/products/the-hayden/collection_feature/the-hayden-collection_feature-1460757659-ICON.jpg"  width="500" height="365"  alt="" class="post-photo-full" />
+
+                            <div class="post-blurb">
+                                <p id="font"> Perhaps, the most popular gift all over the world is
+                                    the gift of Flowers. Whether it is a carefully chosen bouquet of
+                                    flowers or just a stem, it is sure to convey a warm feeling to the
+                                    recipient. Its not only because Flowers are exquisitely beautiful and their
+                                    fragrance is exhilarating, its also because they carry the freshness of nature
+                                    and the world outside with them. The main reason for the popularity of flowers as
+                                    gifts though is their ability to bring good cheer and convey the right
+                                    message with their Language and Meanings. Flowers appeal
+                                    to all our senses and brighten up our lives and our hearts..&hellip; <a href="#" class="more">Read More</a></p>
+                            </div>
+                        </div>
+
+                    </section>
+
+
+                    <nav role="navigation">
+                        <ol class="pagination">
+						    <li><a href="home.html">1</a></li>
+                            <li><a href="Creating a Form.html">2</a></li>
+                            <li><a href="form.html">3</a></li>
+                            <li><a href="buy.html">4</a></li>
+							<li><a href="buycustom.html">5</a></li>
+                            <li><a href="about.html">6</a></li>
+                        </ol>
+                    </nav>
+                </main>
+                <!-- end main -->
+
+                <!-- ==== START SIDEBAR ==== -->
+                <div class="sidebar">
+
+                    <article id="label1" class="ui-widget" >
+                        <!--                        <form    action="mango.php" method="get">
+                                                    <fieldset>
+                                                    <br><br>
+                                                    <p>  <label for= "type">  Search:</label>
+                                                        <input id="name" name="f_name" placeholder="What's on your mind?" onkeyup="showHint(this.value)"><br>
+                                                    <p> Suggestion: <span id="txtHint"></span> </p><br><br>
+                                                                                <p> <label for="tags"> Hints: <input id="tags" size="20"></p><br>
+                                                                                        <input type="submit" value="Submit"><br><br>
+                                                                                                                <select id="ajax" style="width: 250px;">
+                                                                                                                    <option selected disabled> Choose here...</option>
+                                                                                      <form    action="mango.php" method="get">
+                                                                          </select>
+                                                                                        <br>
+                                                    <div id="output"></div>
+                                                    </fieldset>
+                                                </form>-->
+                        <label for= "type">  Search:</label>
+                        <input id="name" name="f_name" placeholder="What's on your mind?" onkeyup="showHint(this.value)"><br>
+                        <span id="txtHint"></span>
+                    </article>
+
+                    <div class="mod">
+                        <h2>Stores Locations</h2>
+                        <img src="img/maps.jpeg" width="298" height="145" alt="" class="map" />
+                    </div>
+
+                    <div  class="mod" >
+                        <h3 >Save the date</h3>
+                        <ul class="label1">
+                            <li >Date: <input type="text" id="datepicker"></li>
+                        </ul>
+                    </div>
+                    <div    class="mod">
+                        <h3>Store information</h3>
+                        <ul  class="label1">
+                            <li>Phone number: (408) 342-9876</li>
+                            <li>Open Daily 8:00 AM - 9:00 PM</li>
+                        </ul>
+                    </div>
+                    <div class="mod"  >
+                        <h3>Events</h3>
+                        <ul  class="label1">
+                            <li><a href="#">Graduation Event</a></li>
+                            <li><a href="#" class="more">Bridal Event</a></li>
+                            <li><a href="#" class="more">Wedding Event</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- end sidebar -->
+            </div>
+            <!-- end container -->
+
+            <!-- ==== START PAGE FOOTER ==== -->
+            <footer role="contentinfo" class="footer">
+                <p class="legal"><small>&copy; 2016 Mango Go Go. All Rights Reserved.</small></p>
+            </footer>
+            <!-- end page footer -->
+
+        </div> <!-- end page -->
+
+    </body>
+
+</html>

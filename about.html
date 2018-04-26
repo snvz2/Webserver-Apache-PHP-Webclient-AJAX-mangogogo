@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <title>Mango Go Go</title>
+        <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Lato:300|Open+Sans:700">
+        <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="css/mangogogo.css">
+        <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>-->
+
+
+        <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+        <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+        <link rel="stylesheet" href="/resources/demos/style.css">
+        <script>
+            var a = ["Iris", "Lilies", "Muscari", "Hellebores",
+                "Ranunculus", "Spray Rosee", "Sweet Peas", "Clematis",
+                "Sraspedia", "Calla lilies", "Orchid", "Hydrangea", "Carnation", "Daffodils", "Violet Roses",
+                "Peony", "Rose", "While rose", "Yellow Rose", "Lily", "Allium", "Tulips"];
+
+            $(document).ready(function () {
+                $("#image").fadeOut(function () {
+                    $(this).load(function () {
+                        $(this).fadeIn();
+                    });
+                    $(this).attr("src", "http://twitrheaders.com/wp-content/uploads/2014/05/Flower-Macro.jpg");
+                });
+
+
+
+            });
+
+            function showHint(searchStr) {
+                console.log(searchStr);
+                var resultFound = false;
+                var i = 0;
+
+                $('#txtHint').html('');
+                if (searchStr != '') {
+                    $.get('http://localhost/mangogogo/mango.php?', {f_name: searchStr}, function (result) {
+                        $('#txtHint').html(result);
+                    });
+                }
+            }
+
+            $(function () {
+
+                function split(val) {
+                    return val.split(/,\s*/);
+                }
+                function extractLast(term) {
+                    return split(term).pop();
+                }
+
+                $("#tags")
+                        // don't navigate away from the field on tab when selecting an item
+                        .bind("keydown", function (event) {
+                            if (event.keyCode === $.ui.keyCode.TAB &&
+                                    $(this).autocomplete("instance").menu.active) {
+                                event.preventDefault();
+                            }
+                        })
+                        .autocomplete({
+                            minLength: 0,
+                            source: function (request, response) {
+                                // delegate back to autocomplete, but extract the last term
+                                response($.ui.autocomplete.filter(
+                                        a, extractLast(request.term)));
+                            },
+                            focus: function () {
+                                // prevent value inserted on focus
+                                return false;
+                            },
+                            select: function (event, ui) {
+                                var terms = split(this.value);
+                                // remove the current input
+                                terms.pop();
+                                // add the selected item
+                                terms.push(ui.item.value);
+                                // add placeholder to get the comma-and-space at the end
+                                terms.push("");
+                                this.value = terms.join(", ");
+                                return false;
+                            }
+                        });
+            });
+
+            $(function () {
+                $(document).tooltip();
+            });
+
+
+
+            $(function () {
+                $("#datepicker").datepicker();
+            });
+            $(function () {
+                $("#accordion").accordion({
+                    heightStyle: "fill"
+                });
+            });
+            $(function () {
+                $("#accordion-resizer").resizable({
+                    minHeight: 140,
+                    minWidth: 200,
+                    resize: function () {
+                        $("#accordion").accordion("refresh");
+                    }
+                });
+            });
+
+            function search_flower() {
+                var name = $("#name").val();
+                $.ajax({url: 'mango.php',
+                    type: 'post',
+                    data: {f_name: name},
+                    success: function (output) {
+                        $("#outputTable").html(output);
+                    }
+                });
+            }
+        </script>
+        <style>
+            #accordion-resizer {
+                padding: 10px;
+                width: 350px;
+                height: 220px;
+            }
+
+            label {
+                display: inline-block;
+                width: 5em;
+            }
+
+            .ui-autocomplete {
+                max-height: 100px;
+                overflow-y: auto;
+                /* prevent horizontal scrollbar */
+                overflow-x: hidden;
+            }
+            /* IE 6 doesn't support max-height
+             * we use height instead, but this forces the menu to always be this tall
+             */
+            * html .ui-autocomplete {
+                height: 100px;
+            }
+        </style>
+
+    </head>
+    <body background="http://newflowerwallpaper.com/download/flower-background-images-and-wallpapers/flower-background-images-and-wallpapers-16.jpg" id="hinh">
+        <div class="page">
+            <!-- ==== START MANGO ==== -->
+            <header class="mango" role="banner">
+                <p class="logo"><a href="/"><img src="img/sjsu.jpeg" alt="MANGO GO GO" /></a></p>
+
+                <!--                <img id="image" src="http://www.ashleysflowersla.com/slide_img/flowers-banner.jpg" width="6" height="2"/>-->
+                <ul class="social-sites">
+                    <li><a href="https://www.facebook.com/sanjosestate">f</a></li>
+                    <li><a href="https://twitter.com/sjsu">t</a></li>
+                    <li><a href="http://www.flickr.com">n</a></li>
+                </ul>
+
+                <nav role="navigation">
+                        <ol class="pagination">
+						    <li><a href="home.html">1</a></li>
+                            <li><a href="Creating a Form.html">2</a></li>
+                            <li><a href="form.html">3</a></li>
+                            <li><a href="buy.html">4</a></li>
+							<li><a href="buycustom.html">5</a></li>
+                            <li><a href="about.html">6</a></li>
+                        </ol>
+                </nav>
+            </header>
+            <!-- end mango -->
+
+            <div  class="container clearfix" >
+                <!-- ==== START MAIN ==== -->
+                <main role="main" >
+                    <section class="post" id="accordion">
+                        <h1>About us</h1>
+                        <div>
+
+                            <div class="post-blurb">
+                                <img src="https://scontent.xx.fbcdn.net/hphotos-xfa1/v/t1.0-9/10993492_943378962346417_5200188787411429249_n.jpg?oh=01c1f4ee4fbde1fcdff980f87234c5cb&oe=57B05C1D"  alt="" class="post-photo-full" />
+
+                                <p id="font"> Nhat is the founder of Cool Blossom Shop...... .</p>
+
+                                <img src="https://scontent.xx.fbcdn.net/hphotos-xap1/v/t1.0-9/1524727_10201433185180080_1863376770_n.jpg?oh=7919aa616d573904327fd42ea8c9f440&oe=579FA11E"  alt="" class="post-photo-full" />
+                                <p id="font"> Minh is Marketing Manager. His inspiration.... .&hellip; <a href="#" class="more">Read More</a></p>
+
+                            </div>
+                        </div>
+                        <h2>Our Mission</h2>
+                        <div>
+                            <img src="http://cdn-media-2.lifehack.org/wp-content/files/2015/02/Wedding06-main.jpg"  width="500" height="365"  alt="" class="post-photo-full" />
+
+                            <div class="post-blurb">
+                                <p id="font">We want to be a part of your occasions. Your happiness is our happiness.
+                                    THINK OF US FIRST!
+                                    .&hellip; <a href="#" class="more">Read More</a></p>
+                            </div>
+                        </div>
+                        <h3>Our Works</h3>
+                        <div>
+                            <img src="https://apis.xogrp.com/media-api/images/078c92bc-80bb-11e4-843f-22000aa61a3e~rs_729.h"  alt="" class="post-photo-full" />
+
+                            <div class="post-blurb">
+                                <p id="font">Wedding
+                                    .&hellip; <a href="#" class="more">Read More</a></p>
+                                <img src="https://apis.xogrp.com/media-api/images/1a4c03ec-124d-11e4-843f-22000aa61a3e~rs_729.h"  alt="" class="post-photo-full" />
+                                <p id="font">
+                                    Stephanie and Patrick were married at Worsell Manor in Warwick, Maryland. </p>
+
+                                <img src="https://apis.xogrp.com/media-api/images/d9769a94-6607-11e4-843f-22000aa61a3e~rs_729.h"  alt="" class="post-photo-full" />
+                                <p id="font">
+                                    Stephanie and Patrick were married at Worsell Manor in Warwick, Maryland. </p>
+                                <img src="https://apis.xogrp.com/media-api/images/53426e68-3af9-11e5-9816-22000aa61a3e~rs_729.h"  alt="" class="post-photo-full" />
+                                <p id="font">
+                                    Stephanie and Patrick were married at Worsell Manor in Warwick, Maryland.</p>
+                                <img src="https://apis.xogrp.com/media-api/images/a125e152-088e-11e5-be0a-22000aa61a3e~rs_729.h"  alt="" class="post-photo-full" />
+                                <p id="font">
+                                    Stephanie and Patrick were married at Worsell Manor in Warwick, Maryland.</p>
+                                <img src="https://apis.xogrp.com/media-api/images/cfd325da-2708-11e5-9816-22000aa61a3e~rs_729.h"  alt="" class="post-photo-full" />
+                                <p id="font">
+                                    Stephanie and Patrick were married at Worsell Manor in Warwick, Maryland.</p>
+                                <img src="https://apis.xogrp.com/media-api/images/2b89c14a-70ca-11e4-843f-22000aa61a3e~rs_729.h"  alt="" class="post-photo-full" />
+                                <p id="font"> After exchanging vows under a tent overlooking Linden Place’s expansive, manicured lawns, the newlyweds and their guests moved indoors to the mansion’s carriage house ballroom for the reception. With its tan brick walls, large fireplace and wood paneled floors, Linden Place in Bristol, Rhode Island, had an innate sense of warmth, that was highlighted not only by the opulent, still-life-inspired centerpieces, but by the abundant candlelight that filled the spacious room.</p>
+
+                                <img src="https://apis.xogrp.com/media-api/images/77d59ce4-93bc-11e4-843f-22000aa61a3e~rs_729.h"  alt="" class="post-photo-full" />
+                                <p id="font"> Wedding</p>
+                                <img src="https://apis.xogrp.com/media-api/images/1a331b53-cbf7-dd6e-6932-0f4fb88df7b5~rs_729.h"  alt="" class="post-photo-full" />
+                                <p id="font"> Since Rachel carried a lush, organic bouquet, Jeff had a natural arrangement on his lapel. His boutonniere from Leaves of Grass had two white lisianthus, blue astrantia, greenery and lavender, all wrapped in a satin ribbon.</p>
+                                <img src="https://apis.xogrp.com/media-api/images/25540e98-5035-11e5-9816-22000aa61a3e~rs_729.h"  alt="" class="post-photo-full" />
+                                <p id="font"> Small arrangements of pink roses, white spider mums, yellow billy balls, and other wildflowers were displayed in bottles and lined down the table for the simple yet romantic centerpieces.</p>
+                                <img src="https://apis.xogrp.com/media-api/images/637818bc-1ee0-11e5-be0a-22000aa61a3e~rs_729.h"  alt="" class="post-photo-full" />
+                                <p id="font">
+                                    Orange dahlias were paired with ranunculus, veronica and roses to create a lush, fall-inspired bouquet by Jen House Design.</p>
+                                <img src="https://apis.xogrp.com/media-api/images/52d80c46-1f2c-11e5-be0a-22000aa61a3e~rs_729.h"  alt="" class="post-photo-full" />
+                                <p id="font"> The bouquets were filled with dahlias, snapdragons and seeded eucalyptus. The dahlias were sourced from a local dahlia farm and the wedding party built their bouquets the night before the wedding.</p>
+                                <img src="https://apis.xogrp.com/media-api/images/75beeca8-349d-11e5-9816-22000aa61a3e~rs_729.h"  alt="" class="post-photo-full" />
+                                <p id="font">
+                                    Taylor made all the wooden wedding signs, and one of Pamela’s bridesmaids painted them with whimsical calligraphy. The wooden chairs also helped tie in the laid-back, natural theme.</p>
+
+
+                            </div>
+                        </div>
+
+                    </section>
+
+
+                    <nav role="navigation">
+                        <ol class="pagination">
+						    <li><a href="home.html">1</a></li>
+                            <li><a href="Creating a Form.html">2</a></li>
+                            <li><a href="form.html">3</a></li>
+                            <li><a href="buy.html">4</a></li>
+							<li><a href="buycustom.html">5</a></li>
+                            <li><a href="about.html">6</a></li>
+                        </ol>
+                    </nav>
+                </main>
+                <!-- end main -->
+
+                <!-- ==== START SIDEBAR ==== -->
+                <div class="sidebar">
+
+                    <article id="label1" class="ui-widget" >
+                        <!--                        <form    action="mango.php" method="get">
+                                                    <fieldset>
+                                                    <br><br>
+                                                    <p>  <label for= "type">  Search:</label>
+                                                        <input id="name" name="f_name" placeholder="What's on your mind?" onkeyup="showHint(this.value)"><br>
+                                                    <p> Suggestion: <span id="txtHint"></span> </p><br><br>
+                                                                                <p> <label for="tags"> Hints: <input id="tags" size="20"></p><br>
+                                                                                        <input type="submit" value="Submit"><br><br>
+                                                                                                                <select id="ajax" style="width: 250px;">
+                                                                                                                    <option selected disabled> Choose here...</option>
+                                                                                      <form    action="mango.php" method="get">
+                                                                          </select>
+                                                                                        <br>
+                                                    <div id="output"></div>
+                                                    </fieldset>
+                                                </form>-->
+                        <label for= "type">  Search:</label>
+                        <input id="name" name="f_name" placeholder="What's on your mind?" onkeyup="showHint(this.value)"><br>
+                        <span id="txtHint"></span>
+                    </article>
+
+                    <div class="mod">
+                        <h3>Stores Locations</h3>
+                        <img src="img/maps.jpeg" width="298" height="145" alt="" class="map" />
+                    </div>
+
+                    <div  class="mod" >
+                        <h3 >Save the date</h3>
+                        <ul class="label1">
+                            <li >Date: <input type="text" id="datepicker"></li>
+                        </ul>
+                    </div>
+                    <div    class="mod">
+                        <h3>Store information</h3>
+
+                        <ul  class="label1">
+
+                            <li>Phone number: (408) 876-0987</li>
+                            <li>Open Daily</li>
+                        </ul>
+                    </div>
+
+                    <div class="mod"  >
+                        <h3>Our Work</h3>
+
+                        <ul  class="label1">
+                            <li><a href="#">Graduation Event</a></li>
+                            <li><a href="#" class="more">Bridal Event</a></li>
+                            <li><a href="#" class="more">Wedding Event</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- end sidebar -->
+            </div>
+            <!-- end container -->
+
+            <!-- ==== START PAGE FOOTER ==== -->
+            <footer role="contentinfo" class="footer">
+                <p class="legal"><small>&copy; 2016 Mango Go Go. All Rights Reserved.</small></p>
+            </footer>
+            <!-- end page footer -->
+
+        </div> <!-- end page -->
+
+    </body>
+
+</html>
